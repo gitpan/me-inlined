@@ -1,15 +1,11 @@
 use strict;
 use warnings;
 package me::inlined;
-{
-  $me::inlined::VERSION = '0.001';
-}
-# git description: 31b4061
-
-BEGIN {
-  $me::inlined::AUTHORITY = 'cpan:ETHER';
-}
+# git description: v0.001-13-g2d6093f
+$me::inlined::VERSION = '0.002';
 # ABSTRACT: EXPERIMENTAL - define multiple packages in one file, and reference them in any order
+# KEYWORDS: development module package file inline declaration
+# vim: set ts=8 sw=4 tw=78 et :
 
 use Module::Runtime 'module_notional_filename';
 
@@ -21,13 +17,17 @@ sub import
     $::INC{$filename} = $caller_file;
 }
 
+{
+    no strict 'refs';
+    delete ${ __PACKAGE__ . '::' }{module_notional_filename};
+}
 1;
 
 __END__
 
 =pod
 
-=for :stopwords Karen Etheridge
+=encoding UTF-8
 
 =head1 NAME
 
@@ -35,7 +35,7 @@ me::inlined - EXPERIMENTAL - define multiple packages in one file, and reference
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -61,12 +61,16 @@ one package in another, you'll have discovered why it's much
 easier to simply follow best practices and define one package per file.
 
 However, this module will let you minimize your inode usage:
-simply add C<<use me::inlined>> in any package that you want to refer to in
+simply add C<< use me::inlined >> in any package that you want to refer to in
 other namespaces in the same file, and you can
 (probably) safely define and use packages in any order.
 
+This will also let you do C<< require Foo; >> in other code, after the F<.pm>
+file containing C<Foo> has been loaded, without C<require> complaining that
+it cannot find F<Foo.pm> in C<@INC>.
+
 This module is for demonstration purposes only, and in no way am I
-recommending you use this in any production code whatsoever.
+recommending you use this in any real code whatsoever.
 
 =head1 FUNCTIONS/METHODS
 
@@ -74,6 +78,8 @@ There is no public API other than the C<use> directive itself, which takes no
 arguments.
 
 =head1 SUPPORT
+
+=for stopwords irc
 
 Bugs may be submitted through L<the RT bug tracker|https://rt.cpan.org/Public/Dist/Display.html?Name=me-inlined>
 (or L<mailto:bug-me-inlined@rt.cpan.org>).
@@ -96,6 +102,10 @@ credit for the idea belongs to Linda Walsh.
 =item *
 
 L<mem>
+
+=item *
+
+L<thanks>
 
 =back
 

@@ -1,8 +1,33 @@
 use strict;
 use warnings;
-use Test::More;
 
-eval 'use Test::NoTabs';
-plan skip_all => 'Test::NoTabs required' if $@;
+# this test was generated with Dist::Zilla::Plugin::Test::NoTabs 0.08
 
-all_perl_files_ok();
+use Test::More 0.88;
+use Test::NoTabs;
+
+my @files = (
+    'lib/me/inlined.pm',
+    't/00-report-prereqs.dd',
+    't/00-report-prereqs.t',
+    't/01-basic.t',
+    't/02-import-args.t',
+    'xt/author/00-compile.t',
+    'xt/author/pod-spell.t',
+    'xt/release/changes_has_content.t',
+    'xt/release/clean-namespaces.t',
+    'xt/release/cpan-changes.t',
+    'xt/release/distmeta.t',
+    'xt/release/eol.t',
+    'xt/release/kwalitee.t',
+    'xt/release/minimum-version.t',
+    'xt/release/mojibake.t',
+    'xt/release/no-tabs.t',
+    'xt/release/pod-coverage.t',
+    'xt/release/pod-no404s.t',
+    'xt/release/pod-syntax.t',
+    'xt/release/portability.t'
+);
+
+notabs_ok($_) foreach @files;
+done_testing;
